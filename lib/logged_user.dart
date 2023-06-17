@@ -26,10 +26,11 @@ class _LoggedScreenState extends State<LoggedScreen> {
   _fetchData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? token = prefs.getString('token');
+    String? endpoint = prefs.getString('end_point');
 
-    if (token != null) {
+    if (token != null && endpoint != null) {
       var response = await http.get(
-        Uri.parse('https://izpqksq5sg.execute-api.eu-west-1.amazonaws.com/prod/user'),
+        Uri.parse(endpoint),
         headers: {"Authorization": "Bearer $token"},
       );
 
