@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+
+import 'main.dart';
 
 class LoggedScreen extends StatefulWidget {
   const LoggedScreen({super.key});
@@ -11,6 +14,7 @@ class LoggedScreen extends StatefulWidget {
 }
 
 class _LoggedScreenState extends State<LoggedScreen> {
+  final FirebaseAuth _auth = FirebaseAuth.instance; // Agrega la instancia de FirebaseAuth
   String? _response;
 
   @override
@@ -42,6 +46,21 @@ class _LoggedScreenState extends State<LoggedScreen> {
     }
   }
 
+  // Método para cerrar la sesión y navegar de nuevo a la pantalla de inicio
+  void _logout() async {
+    await _auth.signOut();
+
+    // Borra el token de SharedPreferences
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('token');
+
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Login Page')),
+          (route) => false, // No permite regresar a la pantalla anterior
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,9 +68,18 @@ class _LoggedScreenState extends State<LoggedScreen> {
         title: Text('Data Screen'),
       ),
       body: Center(
-        child: _response != null
-            ? Text('User ID: $_response')
-            : CircularProgressIndicator(),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            _response != null
+                ? Text('User ID: $_response')
+                : CircularProgressIndicator(),
+            ElevatedButton(
+              onPressed: _logout,
+              child: const Text('Salir'),
+            ),
+          ],
+        ),
       ),
     );
   }
