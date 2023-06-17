@@ -14,9 +14,23 @@ class EndpointScreen extends StatefulWidget {
 class _EndpointScreenState extends State<EndpointScreen> {
   final TextEditingController _endpointController = TextEditingController();
 
+  @override
+  void initState() {
+    super.initState();
+    _loadEndpoint();
+  }
+
+  void _loadEndpoint() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? endpoint = prefs.getString('end_point');
+    if (endpoint != null) {
+      _endpointController.text = endpoint;
+    }
+  }
+
   void _saveEndpoint() async {
     String endpoint = _endpointController.text;
-    if (Uri.parse(endpoint).isAbsolute) {
+    if (Uri.parse('https://'+endpoint).isAbsolute) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('end_point', endpoint);
 

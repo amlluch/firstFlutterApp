@@ -139,43 +139,64 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            TextField(
-              controller: _userController,
-              decoration: const InputDecoration(
-                labelText: 'Usuario',
-              ),
+      body: Stack(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextField(
+                  controller: _userController,
+                  decoration: const InputDecoration(
+                    labelText: 'Usuario',
+                  ),
+                ),
+                TextField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Contraseña',
+                  ),
+                  obscureText: true,
+                ),
+                ElevatedButton(
+                  onPressed: _login,
+                  child: const Text('Enviar'),
+                ),
+                ElevatedButton(
+                  onPressed: _loginWithGoogle,
+                  child: const Text('Hacer login con Google'),
+                ),
+              ],
             ),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(
-                labelText: 'Contraseña',
-              ),
-              obscureText: true,
+          ),
+          Positioned(
+            bottom: 16,
+            right: 16,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const RegisterScreen()),
+                );
+              },
+              child: const Icon(Icons.add),
             ),
-            ElevatedButton(
-              onPressed: _login,
-              child: const Text('Enviar'),
+          ),
+          Positioned(
+            bottom: 16,
+            left: 16,
+            child: FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EndpointScreen()),
+                );
+              },
+              child: const Icon(Icons.settings),
             ),
-            ElevatedButton(
-              onPressed: _loginWithGoogle,
-              child: const Text('Hacer login con Google'),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => const RegisterScreen()),
-          );
-        },
-        child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }
