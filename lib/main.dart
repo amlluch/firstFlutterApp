@@ -13,7 +13,7 @@ Future<void> main() async {
   try {
     await Firebase.initializeApp();
   } catch (e) {
-    print('Error during Firebase initialization: $e');
+    // Do nothing
   }
   runApp(const MyApp());
 }
@@ -79,7 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
         email: _userController.text,
         password: _passwordController.text,
       );
-      // Aquí puedes obtener el token de usuario
+      // Here it gets the user token
       String? token = await userCredential.user?.getIdToken();
       print(token);
       if (token != null) {
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } on FirebaseAuthException catch (e) {
       print(e.message);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Usuario o contraseña incorrectas. Inténtelo de nuevo"))
+          const SnackBar(content: Text("Incorrect username or password. Please try again"))
       );
     }
   }
@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } on FirebaseAuthException catch (e) {
       print(e.message);
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Usuario inexistente"))
+          const SnackBar(content: Text("User does not exist"))
       );
     }
   }
@@ -149,23 +149,23 @@ class _MyHomePageState extends State<MyHomePage> {
                 TextField(
                   controller: _userController,
                   decoration: const InputDecoration(
-                    labelText: 'Usuario',
+                    labelText: 'User',
                   ),
                 ),
                 TextField(
                   controller: _passwordController,
                   decoration: const InputDecoration(
-                    labelText: 'Contraseña',
+                    labelText: 'Password',
                   ),
                   obscureText: true,
                 ),
                 ElevatedButton(
                   onPressed: _login,
-                  child: const Text('Enviar'),
+                  child: const Text('Send'),
                 ),
                 ElevatedButton(
                   onPressed: _loginWithGoogle,
-                  child: const Text('Hacer login con Google'),
+                  child: const Text('Login with Google'),
                 ),
               ],
             ),
@@ -174,6 +174,7 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: 16,
             right: 16,
             child: FloatingActionButton(
+              heroTag: "btn1",
               onPressed: () {
                 Navigator.push(
                   context,
@@ -187,6 +188,7 @@ class _MyHomePageState extends State<MyHomePage> {
             bottom: 16,
             left: 16,
             child: FloatingActionButton(
+              heroTag: "btn2",
               onPressed: () {
                 Navigator.push(
                   context,

@@ -10,7 +10,7 @@ class GoogleRegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Declarar una función local dentro de `build` para que pueda usar `context`
+    // Declare a local function inside `build` so that you can use `context`.
     Future<void> _registerWithGoogle(BuildContext context) async {
       try {
         final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -37,21 +37,20 @@ class GoogleRegisterScreen extends StatelessWidget {
           }
         }
       } on FirebaseAuthException catch (e) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error al iniciar sesión con Google.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error logging in with Google.')));
       }
     }
 
-    // Llama a la función tan pronto como se construye el widget
+    // It calls the function as soon as the widget is built.
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       _registerWithGoogle(context);
     });
 
-    // Aquí el resto del código
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrando con Google...'), // puedes cambiar este texto a lo que prefieras
+        title: const Text('Registering with Google...'),
       ),
-      body: const Center(child: CircularProgressIndicator()), // Un spinner para indicar que está cargando
+      body: const Center(child: CircularProgressIndicator()),
     );
   }
 }

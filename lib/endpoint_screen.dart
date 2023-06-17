@@ -39,7 +39,7 @@ class _EndpointScreenState extends State<EndpointScreen> {
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Por favor, introduce una URL válida.'))
+          const SnackBar(content: Text('Please enter a valid URL.'))
       );
     }
   }
@@ -48,7 +48,7 @@ class _EndpointScreenState extends State<EndpointScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Introducir endpoint'),
+        title: const Text('Enter endpoint'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -63,7 +63,7 @@ class _EndpointScreenState extends State<EndpointScreen> {
             ),
             ElevatedButton(
               onPressed: _saveEndpoint,
-              child: const Text('Guardar'),
+              child: const Text('Save'),
             ),
           ],
         ),

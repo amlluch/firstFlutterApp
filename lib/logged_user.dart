@@ -14,7 +14,7 @@ class LoggedScreen extends StatefulWidget {
 }
 
 class _LoggedScreenState extends State<LoggedScreen> {
-  final FirebaseAuth _auth = FirebaseAuth.instance; // Agrega la instancia de FirebaseAuth
+  final FirebaseAuth _auth = FirebaseAuth.instance; // It adds FirebaseAuth instance
   String? _response;
 
   @override
@@ -47,18 +47,18 @@ class _LoggedScreenState extends State<LoggedScreen> {
     }
   }
 
-  // Método para cerrar la sesión y navegar de nuevo a la pantalla de inicio
+  // Method for logging out and navigating back to the home screen
   void _logout() async {
     await _auth.signOut();
 
-    // Borra el token de SharedPreferences
+    // Deletes token from SharedPreferences
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
 
     Navigator.pushAndRemoveUntil(
       context,
       MaterialPageRoute(builder: (context) => MyHomePage(title: 'Flutter Demo Login Page')),
-          (route) => false, // No permite regresar a la pantalla anterior
+          (route) => false, // Does not allow to return to the previous screen
     );
   }
 
@@ -77,7 +77,7 @@ class _LoggedScreenState extends State<LoggedScreen> {
                 : CircularProgressIndicator(),
             ElevatedButton(
               onPressed: _logout,
-              child: const Text('Salir'),
+              child: const Text('Exit'),
             ),
           ],
         ),

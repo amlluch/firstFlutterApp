@@ -19,7 +19,7 @@ class _UserPasswordRegisterState extends State<UserPasswordRegister> {
 
   void _register() async {
     if (_passwordController.text != _repeatPasswordController.text) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Las contraseñas no coinciden. Inténtelo de nuevo.')));
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Passwords do not match. Please try again.')));
       return;
     }
 
@@ -45,10 +45,10 @@ class _UserPasswordRegisterState extends State<UserPasswordRegister> {
       }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('El usuario ya existe.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('The user already exists.')));
       } else {
         // Aquí se pueden manejar los diferentes errores de FirebaseAuth.
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error al crear el usuario. Inténtelo de nuevo.')));
+        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Error creating the user. Please try again.')));
       }
     }
   }
@@ -57,7 +57,7 @@ class _UserPasswordRegisterState extends State<UserPasswordRegister> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registro'),
+        title: const Text('Register'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -73,7 +73,7 @@ class _UserPasswordRegisterState extends State<UserPasswordRegister> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, introduce tu email';
+                    return 'Please enter your email address';
                   }
                   return null;
                 },
@@ -81,12 +81,12 @@ class _UserPasswordRegisterState extends State<UserPasswordRegister> {
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
-                  labelText: 'Contraseña',
+                  labelText: 'Password',
                 ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, introduce tu contraseña';
+                    return 'Please, enter your password';
                   }
                   return null;
                 },
@@ -94,19 +94,19 @@ class _UserPasswordRegisterState extends State<UserPasswordRegister> {
               TextFormField(
                 controller: _repeatPasswordController,
                 decoration: const InputDecoration(
-                  labelText: 'Repetir Contraseña',
+                  labelText: 'Repeat Password',
                 ),
                 obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Por favor, repite tu contraseña';
+                    return 'Please repeat your password';
                   }
                   return null;
                 },
               ),
               ElevatedButton(
                 onPressed: _register,
-                child: const Text('Registrar'),
+                child: const Text('Register'),
               ),
             ],
           ),

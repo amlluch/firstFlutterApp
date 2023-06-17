@@ -10,9 +10,9 @@ class RegisterScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Registrar'),
+        title: const Text('Register'),
       ),
-      body: Center( // Utilizamos Center para centrar los widgets en la pantalla
+      body: Center( // We use Center to center the widgets on the screen.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -23,7 +23,7 @@ class RegisterScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const UserPasswordRegister()),
                 );
               },
-              child: const Text('Registrar con usuario y contraseña'),
+              child: const Text('Register with user and password'),
             ),
             ElevatedButton(
               onPressed: () {
@@ -33,7 +33,7 @@ class RegisterScreen extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => const GoogleRegisterScreen()),
                 );
               },
-              child: const Text('Registrar con Google'),
+              child: const Text('Register with Google'),
             ),
           ],
         ),
