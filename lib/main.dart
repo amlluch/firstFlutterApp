@@ -2,6 +2,7 @@ import 'package:first_flutter_app/register_user.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'logged_user.dart';
@@ -59,6 +60,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -84,6 +86,40 @@ class _MyHomePageState extends State<MyHomePage> {
       print(e.message);
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text("Usuario o contraseña incorrectas. Inténtelo de nuevo"))
+      );
+    }
+  }
+
+  Future<void> _loginWithGoogle() async {
+    try {
+      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+
+      if (googleUser != null) {
+        final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+
+        final OAuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(credential);
+
+        String? token = await userCredential.user?.getIdToken();
+
+        if (token != null) {
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setString('token', token);
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => LoggedScreen()),
+          );
+        }
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e.message);
+      ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Usuario inexistente"))
       );
     }
   }
@@ -115,6 +151,10 @@ class _MyHomePageState extends State<MyHomePage> {
             ElevatedButton(
               onPressed: _login,
               child: const Text('Enviar'),
+            ),
+            ElevatedButton(
+              onPressed: _loginWithGoogle,
+              child: const Text('Hacer login con Google'),
             ),
           ],
         ),
