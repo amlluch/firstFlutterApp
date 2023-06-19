@@ -6,13 +6,15 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'endpoint_screen.dart';
+import 'firebase_options.dart';
 import 'logged_user.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
-    await Firebase.initializeApp();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   } catch (e) {
+    print('Error initializing Firebase: $e');
     // Do nothing
   }
   runApp(const MyApp());
@@ -31,7 +33,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _checkEndpoint();
+    WidgetsBinding.instance?.addPostFrameCallback((_) {
+      _checkEndpoint();
+    });
   }
 
   void _checkEndpoint() async {
@@ -40,7 +44,7 @@ class _MyAppState extends State<MyApp> {
 
     setState(() {
       _home = endpoint != null
-          ? MyHomePage(title: 'Flutter Demo Login Page')
+          ? const MyHomePage(title: 'Five point five Demo Login Page')
           : const EndpointScreen();
     });
   }
@@ -48,7 +52,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Five point five Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
